@@ -18,3 +18,11 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class TokenData(BaseModel):
+    email: str = None
+    is_active: bool = False
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

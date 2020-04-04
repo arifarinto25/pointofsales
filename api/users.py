@@ -6,11 +6,12 @@ from schemas import schema_item, schema_user
 from models.database import SessionLocal
 from sqlalchemy.orm import Session
 from .db import get_db
+from .token import get_current_user
 
 router = APIRouter()
 
 @router.post("/users/", response_model=schema_user.User)
-def create_user(user: schema_user.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schema_user.UserCreate, db: Session = Depends(get_db), current_user: schema_user.User = Depends(get_current_user)):
     db_user = crud_user.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -18,7 +19,8 @@ def create_user(user: schema_user.UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/users/", response_model=List[schema_user.User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: schema_user.TokenData = Depends(get_current_user)):
+    print(current_user)
     users = crud_user.get_users(db, skip=skip, limit=limit)
     return users
 
