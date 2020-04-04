@@ -1,0 +1,44 @@
+PATH-01:
+  /apipos/product:
+    post: create product
+    get: get list data
+  /apipos/product/{id}:
+    get: get product by id
+    put: update product
+PATH-02:
+  /apipos/manufacture:
+    post: create manufacture
+    get: get list data
+  /apipos/manufacture/{id}:
+    get: get manufacture by id
+    put: update manufacture
+PATH-03:
+  /apipos/supplier:
+    post: create supplier
+    get: get list data
+  /apipos/supplier/{id}:
+    get: get supplier by id
+    put: update supplier
+
+OBJECT:
+  Product:
+    id: uuid
+    name: string
+    code: string
+    barCode: string
+    price: integer
+    stock: integer
+    tags: array
+    status: boolean
+    manufacture: #object idManufacture
+    supplier: array #object idSupplier
+  Manufacture:
+    id: uuid
+    name: string
+    address: string
+    phone: string
+  Supplier: 
+    id: uuid
+    name: string
+    address: string
+    phone: string
