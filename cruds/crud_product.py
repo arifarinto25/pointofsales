@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from models.item import Item
-from schemas.schema_item import ItemCreate
+from models.product import Item
+from schemas.schema import ItemCreate
 
 def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Item).offset(skip).limit(limit).all()

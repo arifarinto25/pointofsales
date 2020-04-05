@@ -1,44 +1,110 @@
 PATH-01:
-  /apipos/product:
+  /product:
     post: create product
-    get: get list data
-  /apipos/product/{id}:
+    get: get list data paging (complicated)
+  /product/search:
+    post: cari berdasarkan nama (simple)
+  /product/searchCategory:
+    post: cari dengan kirim category array
+  /product/barcode/{barCode}:
+    get: get product by barCode
+  /product/{id}:
     get: get product by id
-    put: update product
 PATH-02:
-  /apipos/manufacture:
-    post: create manufacture
-    get: get list data
-  /apipos/manufacture/{id}:
-    get: get manufacture by id
-    put: update manufacture
+  /salestemp:
+    post: create sales SalesTemporary
+    get: get list data SalesTemporary
+  /salestemp/{id}:
+    get: get SalesTemporary by id
+    put: update SalesTemporary (tambah item, hapus item, edit jumlah item)
 PATH-03:
-  /apipos/supplier:
-    post: create supplier
-    get: get list data
-  /apipos/supplier/{id}:
-    get: get supplier by id
-    put: update supplier
+  /salesdata:
+    post: create sales SalesData
+    get: get list data SalesData
+  /salesdata/{id}:
+    get: get SalesData by id
+    put: update SalesTemporary cancel transaksi atau reversal
+PATH-04:
+  /token/token:
+    post: login with username and password
+  /users:
+    post: create user #done
+    get: get list user
+  /salesdata/{id}:
+    get: get user by id
+    put: update user by id
 
 OBJECT:
-  Product:
+  01-Product:
     id: uuid
     name: string
+    volume: integer
+    volType: #enum VolType
+    description: string
     code: string
     barCode: string
     price: integer
     stock: integer
-    tags: array
+    isNew: boolean
+    stockable: boolean
+    lastSync: dateTime
     status: boolean
-    manufacture: #object idManufacture
-    supplier: array #object idSupplier
-  Manufacture:
+    imageName: string
+  VolType:
+    enum: [gr, kg, ml, liter]
+  02-Tags:
+    name: string
+    productId: idProduct
+  03-User:
     id: uuid
     name: string
-    address: string
-    phone: string
-  Supplier: 
+    username: string
+    password: string
+    userBalance: integer
+    limitKartu: integer
+    saldoKartu: integer
+    nfcId: string
+    imageUser: string
+    lastSync: dateTime
+  04-SalesTemporary:
     id: uuid
+    customerId: idUser #User
+    createDate : dateTime
+    salesStatus: boolean
+    total: integer
+    discount: integer
+    finalPrice: integer
+    bayar: integer
+    kembali: integer
+  05-SalesTemporaryDetail:
+    id: uuid
+    salesId: idSalesTemporary #SalesTemporary
+    productId: idProduct #Product
     name: string
-    address: string
-    phone: string
+    price: integer
+    jumlah: integer
+  06-SalesData:
+    id: uuid
+    customerId: idUser #User
+    customerName: string
+    customerBalance: integer
+    customerCardBalance: integer
+    customerNfcId: string
+    createDate : dateTime
+    statusSync: boolean
+    syncDate: dateTime
+    total: integer
+    discount: integer
+    finalPrice: integer
+    paymentType: #enum PaymentType
+    bayar: integer
+    kembali: integer
+  PaymentType:
+    enum: [card,cash]
+  07-SalesDataDetail:
+    id: uuid
+    salesId: idSalesData #SalesData
+    productId: idProduct
+    name: string
+    price: integer
+    jumlah: integer

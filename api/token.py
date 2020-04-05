@@ -8,7 +8,7 @@ from jwt import PyJWTError
 from passlib.context import CryptContext
 
 from sqlalchemy.orm import Session
-from schemas import schema_user
+from schemas import schema
 from .db import get_db
 
 SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
@@ -21,8 +21,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token/token")
 
 router = APIRouter()
 
-
-@router.post("/token", response_model=schema_user.Token)
+@router.post("/token", response_model=schema.Token)
 async def login_for_access_token( form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = crud_user.cek_login(db, form_data.username, form_data.password)
     if not user:
@@ -59,7 +58,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         is_active : bool = payload.get("is_active")
         if email is None:
             raise credentials_exception
-        token_data = schema_user.TokenData(email=email,is_active=is_active)
+        token_data = schema.TokenData(email=email,is_active=is_active)
     except PyJWTError:
         raise credentials_exception
     return token_data
