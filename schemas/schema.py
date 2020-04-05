@@ -20,6 +20,8 @@ class UserBase(BaseModel):
     nfcId: str
     imageUser: str
     lastSync: datetime
+    class Config:
+        orm_mode = True
 
 class UserIn(UserBase):
     password: str

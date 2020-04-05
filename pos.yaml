@@ -29,9 +29,9 @@ PATH-04:
     post: login with username and password
   /users:
     post: create user #done
-    get: get list user
+    get: get list user #done
   /salesdata/{id}:
-    get: get user by id
+    get: get user by id #done
     put: update user by id
 
 OBJECT:
