@@ -30,9 +30,9 @@ PATH-04:
   /users:
     post: create user #done
     get: get list user #done
-  /salesdata/{id}:
+  /users/{id}:
     get: get user by id #done
-    put: update user by id
+    put: update user by id #done
 
 OBJECT:
   01-Product:
@@ -68,7 +68,9 @@ OBJECT:
     lastSync: dateTime
   04-SalesTemporary:
     id: uuid
+    memberyType: boolean
     customerId: idUser #User
+    customerName: string
     createDate : dateTime
     salesStatus: boolean
     total: integer
