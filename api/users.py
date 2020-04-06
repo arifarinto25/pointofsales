@@ -37,7 +37,7 @@ def read_user(id: str, db: Session = Depends(get_db)):
 
 @router.put("/user/{id}", response_model=schema.UserOut)
 def create_user(id: str, user: schema.UserOut, db: Session = Depends(get_db)):
-    db_user = crud_user.cek_waktu_insert(db, id=user.id, nfcId=user.nfcId, username=user.username)
+    db_user = crud_user.cek_waktu_update(db, nfcId=user.nfcId, username=user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="userID or username or nfcId already registered")
     crud_user.update_user_by_id(db, id=id, user=user)

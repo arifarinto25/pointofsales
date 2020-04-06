@@ -7,6 +7,9 @@ from schemas import schema
 def cek_waktu_insert(db: Session, id: str, nfcId: str, username: str):
     return db.query(User).filter(or_(User.id == id, User.nfcId == nfcId, User.username == username)).first()
 
+def cek_waktu_update(db: Session, id: str, nfcId: str, username: str):
+    return db.query(User).filter(or_(User.nfcId == nfcId, User.username == username)).first()
+
 def create_user(db: Session, user: schema.UserIn):
     db_user = User(**user.dict())
     db.add(db_user)
